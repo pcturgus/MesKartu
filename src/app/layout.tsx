@@ -23,10 +23,20 @@ export const metadata: Metadata = {
   description: "Bendras aktyvumo ir gyvenimo žurnalas",
 };
 
+// Applies a saved theme choice (from ThemeToggle) before first paint, so
+// switching pages/reloading never flashes the wrong theme. Inline + first
+// in <body> so it runs before anything below it renders. Falls back to the
+// device's own light/dark setting (same as before this existed) when
+// nothing has been chosen yet, or in a browser with JS disabled.
+const themeInitScript = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="lt" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="lt" className="h-full antialiased" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col">
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {children}
+      </body>
     </html>
   );
 }

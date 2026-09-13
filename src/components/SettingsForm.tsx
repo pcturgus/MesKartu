@@ -6,6 +6,7 @@ import { GOAL_PRESETS } from "@/lib/runs";
 import { Modal } from "@/components/Modal";
 import { Avatar } from "@/components/Avatar";
 import { PhotoField } from "@/components/PhotoField";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const initialState: SettingsState = undefined;
 
@@ -42,6 +43,10 @@ export function SettingsForm({
           <h3 className="text-sm font-bold" style={{ color: "var(--dusk)" }}>
             Nustatymai
           </h3>
+      <div className="flex flex-col gap-1.5">
+        <span className="text-xs font-bold uppercase tracking-wide text-ink-faint">Tema</span>
+        <ThemeToggle />
+      </div>
       <PhotoField
         name="avatar_url"
         folder="avatars"

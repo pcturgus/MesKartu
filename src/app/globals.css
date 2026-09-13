@@ -29,6 +29,8 @@
 }
 
 :root {
+  color-scheme: light dark;
+
   --font-display: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
   --font-body: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-mono: "Space Mono", "SF Mono", Consolas, monospace;
@@ -67,8 +69,14 @@
   --radius: 7px;
 }
 
+/* Dark tokens apply either when the device prefers dark and the person
+   hasn't explicitly chosen "Šviesi tema" (ThemeToggle sets data-theme on
+   <html>), or when they've explicitly chosen "Tamsi tema" regardless of
+   the device's own setting. Kept as two blocks (rather than one shared
+   selector) since a plain selector can't live inside a media query. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --ink: #f1eef9;
     --ink-soft: #b0a7c9;
     --ink-faint: #7a7196;
@@ -90,7 +98,7 @@
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 34px -16px rgba(124, 92, 255, 0.38);
   }
 
-  body::before {
+  html:not([data-theme="light"]) body::before {
     background-image:
       linear-gradient(rgba(10, 8, 20, 0.45), rgba(10, 8, 20, 0.65)),
       url("/brand/bg-nebula.jpg");
@@ -98,6 +106,42 @@
     background-position: center;
     background-attachment: fixed;
   }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #f1eef9;
+  --ink-soft: #b0a7c9;
+  --ink-faint: #7a7196;
+  --bg: #0c0a18;
+  --surface: #17142c;
+  --surface-2: #1e1a3a;
+  --line: #2b2547;
+
+  --gti-red: #ff4d5e;
+  --gti-red-soft: rgba(255, 77, 94, 0.18);
+
+  --accent-fill-1: #7c5cff;
+  --accent-fill-2: #ff5fa8;
+  --accent-glow: rgba(124, 92, 255, 0.45);
+  --aurora-a: rgba(124, 92, 255, 0.35);
+  --aurora-b: rgba(255, 95, 168, 0.26);
+  --aurora-c: rgba(255, 201, 77, 0.18);
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 34px -16px rgba(124, 92, 255, 0.38);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] body::before {
+  background-image:
+    linear-gradient(rgba(10, 8, 20, 0.45), rgba(10, 8, 20, 0.65)),
+    url("/brand/bg-nebula.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 * {
