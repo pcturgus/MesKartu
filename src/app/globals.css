@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-dusk: var(--dusk);
+  --color-dusk-soft: var(--dusk-soft);
+  --color-ember: var(--ember);
+  --color-ember-ink: var(--ember-ink);
+  --color-ember-soft: var(--ember-soft);
+  --color-rose: var(--rose);
+  --color-rose-ink: var(--rose-ink);
+  --color-rose-soft: var(--rose-soft);
+  --color-gold: var(--gold);
+  --color-gold-fill: var(--gold-fill);
+  --color-gold-soft: var(--gold-soft);
+  --color-gti-red: var(--gti-red);
+  --color-gti-red-soft: var(--gti-red-soft);
+  --color-accent-1: var(--accent-fill-1);
+  --color-accent-2: var(--accent-fill-2);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+:root {
+  --font-display: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  --font-body: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "Space Mono", "SF Mono", Consolas, monospace;
+
+  --ink: #171325;
+  --ink-soft: #55516e;
+  --ink-faint: #86809c;
+  --bg: #f6f1fb;
+  --surface: #ffffff;
+  --surface-2: #f4eefa;
+  --line: #e3d9f0;
+
+  --dusk: #2e2a63;
+  --dusk-soft: #55519a;
+  --ember: #ff5a36;
+  --ember-ink: #b23b1e;
+  --ember-soft: #ffe3da;
+  --rose: #e0447e;
+  --rose-ink: #a12f5c;
+  --rose-soft: #ffe1ee;
+  --gold: #d99400;
+  --gold-fill: #f5b700;
+  --gold-soft: #fff1cc;
+  --gti-red: #c8102e;
+  --gti-red-soft: rgba(200, 16, 46, 0.12);
+
+  --accent-fill-1: #5b46c9;
+  --accent-fill-2: #d6367f;
+  --accent-gradient: linear-gradient(135deg, var(--accent-fill-1), var(--accent-fill-2));
+  --accent-glow: rgba(91, 70, 201, 0.28);
+  --aurora-a: rgba(91, 70, 201, 0.1);
+  --aurora-b: rgba(214, 54, 127, 0.08);
+  --aurora-c: rgba(217, 148, 0, 0.07);
+
+  --shadow: 0 1px 2px rgba(23, 19, 37, 0.06), 0 12px 30px -16px rgba(91, 70, 201, 0.22);
+  --radius: 7px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #f1eef9;
+    --ink-soft: #b0a7c9;
+    --ink-faint: #7a7196;
+    --bg: #0c0a18;
+    --surface: #17142c;
+    --surface-2: #1e1a3a;
+    --line: #2b2547;
+
+    --gti-red: #ff4d5e;
+    --gti-red-soft: rgba(255, 77, 94, 0.18);
+
+    --accent-fill-1: #7c5cff;
+    --accent-fill-2: #ff5fa8;
+    --accent-glow: rgba(124, 92, 255, 0.45);
+    --aurora-a: rgba(124, 92, 255, 0.35);
+    --aurora-b: rgba(255, 95, 168, 0.26);
+    --aurora-c: rgba(255, 201, 77, 0.18);
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 34px -16px rgba(124, 92, 255, 0.38);
+  }
+
+  body::before {
+    background-image:
+      linear-gradient(rgba(10, 8, 20, 0.45), rgba(10, 8, 20, 0.65)),
+      url("/brand/bg-nebula.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(680px 560px at 12% -8%, var(--aurora-a), transparent 62%),
+    radial-gradient(620px 520px at 104% 6%, var(--aurora-b), transparent 60%),
+    radial-gradient(680px 560px at 26% 108%, var(--aurora-c), transparent 60%);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .recap-line {
+    opacity: 0;
+    animation: recapIn 0.5s ease both;
+  }
+  .recap-line:nth-child(1) { animation-delay: 0.05s; }
+  .recap-line:nth-child(2) { animation-delay: 0.2s; }
+  .recap-line:nth-child(3) { animation-delay: 0.35s; }
+  .recap-line:nth-child(4) { animation-delay: 0.5s; }
+  @keyframes recapIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Goal-route illustration (src/components/GoalRoute.tsx) — a fully
+     virtual/illustrated path, no map tiles involved. Marching-ants dash on
+     the route line. */
+  .goal-route-line {
+    animation: goalRouteDash 1.1s linear infinite;
+  }
+  @keyframes goalRouteDash {
+    to { stroke-dashoffset: -20; }
+  }
+
+  /* Soft pulsing glow on the "you are here" marker while the goal isn't
+     reached yet, and a one-off pop once it is. transform-box/-origin make
+     an SVG <g>'s scale() pivot on its own center instead of the whole
+     SVG's (0,0) corner, which is the default for SVG transforms. */
+  .goal-route-marker-pulse,
+  .goal-route-marker-pop {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .goal-route-marker-pulse {
+    animation: goalMarkerPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes goalMarkerPulse {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 90, 54, 0)); transform: scale(1); }
+    50% { filter: drop-shadow(0 0 9px var(--ember)); transform: scale(1.14); }
+  }
+  .goal-route-marker-pop {
+    animation: goalMarkerPop 0.6s ease-out;
+  }
+  @keyframes goalMarkerPop {
+    0% { transform: scale(0.4); }
+    60% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+  }
+}

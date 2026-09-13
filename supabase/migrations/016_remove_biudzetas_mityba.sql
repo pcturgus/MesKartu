@@ -1,0 +1,16 @@
+-- The Biudžetas and Mityba tabs were removed from the site (Santaupos /
+-- savings_goal / contributions already moved to Kelionės earlier and are
+-- NOT touched here).
+--
+-- The underlying tables are left in place on purpose — no data is lost.
+-- Drop them yourself later if you're sure you don't want them anymore:
+--   drop table if exists public.bills;
+--   drop table if exists public.budget_entries;
+--   drop table if exists public.supplement_logs;
+--   drop table if exists public.supplements;
+--   drop table if exists public.meals;
+--   drop table if exists public.quick_foods;
+--   drop table if exists public.calorie_goal;
+--
+-- No badges were tied to Biudžetas/Mityba activity, so there is nothing to
+-- clean up in badges_earned this time.

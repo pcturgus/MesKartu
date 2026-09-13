@@ -1,0 +1,11 @@
+-- The Aktyvumas goal widget went back to being a fully virtual/illustrated
+-- path (no real map, no OpenStreetMap tiles) — so couple_settings.goal_lat
+-- / goal_lng / goal_route (added in 015_goal_map.sql to cache a geocoded
+-- destination + route for the real map) are no longer read or written by
+-- the app.
+--
+-- Left in place on purpose — no data is lost. Drop them yourself later if
+-- you're sure you don't want them anymore:
+--   alter table public.couple_settings drop column if exists goal_lat;
+--   alter table public.couple_settings drop column if exists goal_lng;
+--   alter table public.couple_settings drop column if exists goal_route;

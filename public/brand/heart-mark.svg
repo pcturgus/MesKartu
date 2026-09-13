@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="heartMarkGrad" x1="6" y1="0" x2="94" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff8a3d" />
+      <stop offset="32%" stop-color="#e0447e" />
+      <stop offset="55%" stop-color="#8b5cf6" />
+      <stop offset="78%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#2dd4bf" />
+    </linearGradient>
+  </defs>
+  <path d="M48,30 C48,16 36,8 24,13 C12,18 10,34 18,46 C26,58 40,70 56,88"
+        stroke="url(#heartMarkGrad)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M52,30 C52,16 64,8 76,13 C88,18 90,34 82,46 C74,58 60,70 44,88"
+        stroke="url(#heartMarkGrad)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
