@@ -163,6 +163,18 @@
   box-sizing: border-box;
 }
 
+/* Hides the scrollbar on horizontally-scrollable strips (e.g. TabNav on
+   narrow screens) while keeping them scrollable — the content itself is
+   still reachable by touch/swipe or a trackpad, this only hides the
+   scrollbar chrome some browsers draw for it. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   background: var(--bg);
   color: var(--ink);

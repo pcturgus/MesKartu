@@ -23,9 +23,14 @@ export function AppHeader({
   const me = profiles.find((p) => p.id === userId);
 
   return (
-    <header className="flex items-start justify-between gap-3">
+    // Stacked on mobile — the greeting gets the full row width to itself
+    // (long greetings like "Sveiki, dienos vidurys — laikas judėti" need
+    // room to wrap cleanly in the wider display font), with the icon
+    // cluster on its own right-aligned row below. From sm: up there's
+    // enough width for both side by side again.
+    <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
       <GreetingLine names={namesFromProfiles(profiles)} />
-      <div className="flex shrink-0 items-center gap-2">
+      <div className="flex w-full shrink-0 items-center justify-end gap-2 sm:w-auto">
         <NotificationsBell />
         {me && (
           <SettingsForm myName={me.name} goalKm={goalKm} goalNote={goalNote} avatarUrl={me.avatar_url} />
