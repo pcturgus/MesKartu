@@ -3,6 +3,7 @@
 import { useTransition } from "react";
 import { toggleShopItem, deleteShopItem } from "@/app/buitis/actions";
 import { guessProductEmoji } from "@/lib/products";
+import { ConfirmDeleteButton } from "@/components/ConfirmDeleteButton";
 import type { ShoppingItem } from "@/types/database";
 
 export function ShopItemRow({ item }: { item: ShoppingItem }) {
@@ -24,13 +25,7 @@ export function ShopItemRow({ item }: { item: ShoppingItem }) {
       <span className={`flex-1 text-sm ${item.done ? "line-through text-ink-faint" : "text-ink"}`}>
         {item.text}
       </span>
-      <button
-        onClick={() => startTransition(() => deleteShopItem(item.id))}
-        title="Ištrinti"
-        className="text-ink-faint hover:text-ember-ink text-sm px-1"
-      >
-        ✕
-      </button>
+      <ConfirmDeleteButton action={deleteShopItem.bind(null, item.id)} />
     </div>
   );
 }

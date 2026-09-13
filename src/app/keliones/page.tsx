@@ -220,11 +220,16 @@ export default async function KelionesPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="font-mono font-bold">{Number(c.amount).toFixed(2)} €</span>
-                  <form action={deleteContribution.bind(null, c.id)}>
-                    <button type="submit" className="text-ink-faint hover:text-ember-ink text-sm px-1" title="Ištrinti">
-                      ✕
-                    </button>
-                  </form>
+                  {/* Only the person who added a contribution can delete it
+                      (enforced server-side too) — showing this for the
+                      partner's rows meant clicking it silently did nothing. */}
+                  {c.user_id === user?.id && (
+                    <form action={deleteContribution.bind(null, c.id)}>
+                      <button type="submit" className="text-ink-faint hover:text-ember-ink text-sm px-1" title="Ištrinti">
+                        ✕
+                      </button>
+                    </form>
+                  )}
                 </div>
               </li>
             ))}

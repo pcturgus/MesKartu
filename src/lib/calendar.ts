@@ -18,11 +18,20 @@ export function shiftMonthKey(monthKey: string, delta: number): string {
 }
 
 // True if a (possibly yearly-recurring) date falls on the given calendar
-// day. Non-recurring items only match their exact date.
+// day. Non-recurring items only match their exact date. Parses the stored
+// "YYYY-MM-DD" string directly instead of via `new Date(...)`, so this
+// can't be thrown off by the server's own timezone. A Feb 29 anniversary is
+// clamped to Feb 28 in non-leap years (consistent with nextOccurrence in
+// dates.ts) — otherwise it would never match any day at all in those years.
 export function occursOn(dateStr: string, recurring: boolean, year: number, month0: number, day: number): boolean {
-  const d = new Date(dateStr + "T00:00:00");
-  if (recurring) return d.getMonth() === month0 && d.getDate() === day;
-  return d.getFullYear() === year && d.getMonth() === month0 && d.getDate() === day;
+  const [, dMonth1, dDay] = dateStr.split("-").map(Number);
+  const dMonth0 = dMonth1 - 1;
+  if (recurring) {
+    const clampedDay = Math.min(dDay, daysInMonth(year, dMonth0));
+    return dMonth0 === month0 && clampedDay === day;
+  }
+  const [dYear] = dateStr.split("-").map(Number);
+  return dYear === year && dMonth0 === month0 && dDay === day;
 }
 
 // True if [startDate, endDate] (either may be missing) overlaps the given

@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { toggleTask, deleteTask } from "@/app/buitis/actions";
+import { ConfirmDeleteButton } from "@/components/ConfirmDeleteButton";
 import type { Task } from "@/types/database";
 
 export function TaskRow({ task, assigneeLabel }: { task: Task; assigneeLabel: string }) {
@@ -33,13 +34,7 @@ export function TaskRow({ task, assigneeLabel }: { task: Task; assigneeLabel: st
       >
         {assigneeLabel}
       </span>
-      <button
-        onClick={() => startTransition(() => deleteTask(task.id))}
-        title="Ištrinti"
-        className="text-ink-faint hover:text-ember-ink text-sm px-1"
-      >
-        ✕
-      </button>
+      <ConfirmDeleteButton action={deleteTask.bind(null, task.id)} />
     </div>
   );
 }

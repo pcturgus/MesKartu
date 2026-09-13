@@ -12,7 +12,7 @@ import { LightboxImage } from "@/components/LightboxImage";
 import { Avatar } from "@/components/Avatar";
 import { AppHeader } from "@/components/AppHeader";
 import { deleteMemory, openCapsule, deleteCapsule } from "@/app/mes/actions";
-import { fmtDateLt, humanDuration, todayKey } from "@/lib/dates";
+import { fmtDateLt, humanDuration, todayKey, todayAtMidnight } from "@/lib/dates";
 import type { Profile, Memory, Movie, CoupleSettings, Capsule, GuessGameRound } from "@/types/database";
 
 export default async function MesPage() {
@@ -72,8 +72,7 @@ export default async function MesPage() {
   let daysTogether: number | null = null;
   if (coupleSettings.start_date) {
     const start = new Date(coupleSettings.start_date + "T00:00:00");
-    const nowMidnight = new Date();
-    nowMidnight.setHours(0, 0, 0, 0);
+    const nowMidnight = todayAtMidnight();
     daysTogether = Math.round((nowMidnight.getTime() - start.getTime()) / 86400000);
   }
 
@@ -181,8 +180,7 @@ export default async function MesPage() {
                 </form>
               );
               if (!unlocked) {
-                const nowMidnight = new Date();
-                nowMidnight.setHours(0, 0, 0, 0);
+                const nowMidnight = todayAtMidnight();
                 const unlockAt = new Date(c.unlock_date + "T00:00:00");
                 const days = Math.ceil((unlockAt.getTime() - nowMidnight.getTime()) / 86400000);
                 return (

@@ -1,8 +1,8 @@
 import type { Range, Run } from "@/types/database";
+import { todayAtMidnight } from "@/lib/dates";
 
 export function rangeStart(range: Range): Date {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = todayAtMidnight();
 
   if (range === "all") {
     return new Date(0);

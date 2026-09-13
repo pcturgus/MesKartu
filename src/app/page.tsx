@@ -58,7 +58,14 @@ export default async function DashboardPage({
   const names: [string, string] = [p0?.name ?? "Mantas", p1?.name ?? "Diana"];
   const userIds: [string, string] = [p0?.id ?? "", p1?.id ?? ""];
 
-  const totalKm = allRuns.reduce((sum, r) => sum + Number(r.km), 0);
+  // The "Visos veiklos / Ėjimas / Bėgimas / ..." filter sits above every
+  // section on this page (stats cards, goal progress, recap, trend,
+  // streak, entries) — so it should apply to all of them, not just the
+  // entries list below. Badges are the one deliberate exception: they're
+  // overall achievements, not tied to whatever filter you happen to be
+  // viewing.
+  const filteredRuns = activityFilter ? allRuns.filter((r) => r.activity === activityFilter) : allRuns;
+  const totalKm = filteredRuns.reduce((sum, r) => sum + Number(r.km), 0);
 
   let badgesEarned: BadgeEarned[] = badgeInputs.existing;
   if (p0 && p1) {
@@ -139,7 +146,7 @@ export default async function DashboardPage({
 
       <section className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
         {allProfiles.map((p) => {
-          const s = statsFor(p.id, range, allRuns);
+          const s = statsFor(p.id, range, filteredRuns);
           const accentVar = p.accent === "rose" ? "var(--rose)" : "var(--ember)";
           return (
             <div
@@ -170,9 +177,10 @@ export default async function DashboardPage({
           Įrašai
         </h2>
         <RunsList
-          runs={activityFilter ? allRuns.filter((r) => r.activity === activityFilter) : allRuns}
+          runs={filteredRuns}
           profiles={allProfiles}
           activityFilter={activityFilter}
+          currentUserId={user?.id ?? null}
         />
       </section>
 
@@ -186,7 +194,7 @@ export default async function DashboardPage({
 
       {p0 && p1 && (
         <section className="mt-4">
-          <RecapCard runs={allRuns} userIds={userIds} names={names} />
+          <RecapCard runs={filteredRuns} userIds={userIds} names={names} />
         </section>
       )}
 
@@ -194,7 +202,7 @@ export default async function DashboardPage({
         <h2 className="text-2xl mb-3" style={{ color: "var(--dusk)" }}>
           Savaičių tendencija
         </h2>
-        <TrendChart runs={allRuns} userIds={userIds} />
+        <TrendChart runs={filteredRuns} userIds={userIds} />
       </section>
 
       {p0 && p1 && (
@@ -202,7 +210,7 @@ export default async function DashboardPage({
           <h2 className="text-2xl mb-3" style={{ color: "var(--dusk)" }}>
             Serija
           </h2>
-          <StreakGrid runs={allRuns} userIds={userIds} names={names} />
+          <StreakGrid runs={filteredRuns} userIds={userIds} names={names} />
         </section>
       )}
 

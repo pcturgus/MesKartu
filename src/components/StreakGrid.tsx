@@ -1,12 +1,11 @@
 import { combinedStreak, dayRunners } from "@/lib/runs";
-import { dayKey } from "@/lib/dates";
+import { dayKey, todayAtMidnight } from "@/lib/dates";
 import type { Run } from "@/types/database";
 
 export function StreakGrid({ runs, userIds, names }: { runs: Run[]; userIds: [string, string]; names: [string, string] }) {
   const weeks = 9;
   const total = weeks * 7;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = todayAtMidnight();
 
   const cells: { key: string; cls: "both" | "p0" | "p1" | "" }[] = [];
   for (let i = total - 1; i >= 0; i--) {

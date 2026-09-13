@@ -157,6 +157,18 @@ export async function startGuessRound() {
   const ids = (profileRows ?? []).map((p) => p.id as string);
   if (ids.length < 2) return;
 
+  // Guard against two near-simultaneous "Naujas raundas" clicks (e.g. one
+  // from each partner's device) creating two unresolved rounds — the UI
+  // only ever shows the newest one, so the other would become a permanently
+  // orphaned duplicate. Not fully atomic, but closes almost all of the
+  // window since the check and insert are back-to-back.
+  const { data: activeRows } = await supabase
+    .from("guess_game_rounds")
+    .select("id")
+    .eq("resolved", false)
+    .limit(1);
+  if (activeRows && activeRows.length > 0) return;
+
   const { data: pastRounds } = await supabase
     .from("guess_game_rounds")
     .select("question, target_user_id, created_at")
@@ -206,7 +218,15 @@ export async function submitGuess(_prev: FormState, formData: FormData): Promise
   const guess = String(formData.get("guess") || "").trim();
   if (!roundId || !guess) return { error: "Įvesk spėjimą." };
 
-  const { error } = await supabase.from("guess_game_rounds").update({ guesser_answer: guess }).eq("id", roundId);
+  // The target answers their own question first, then the OTHER partner
+  // guesses — without this check, target_user_id could submit the guess
+  // too (only prevented client-side by hiding the form), bypassing the
+  // two-player turn structure entirely.
+  const { error } = await supabase
+    .from("guess_game_rounds")
+    .update({ guesser_answer: guess })
+    .eq("id", roundId)
+    .neq("target_user_id", userId);
   if (error) return { error: "Nepavyko išsaugoti spėjimo." };
 
   await recordActivity(supabase, userId, 'atspėjo atsakymą "Kaip gerai mane pažįsti" žaidime — laikas atskleisti', "/mes");

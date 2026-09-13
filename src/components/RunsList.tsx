@@ -20,10 +20,12 @@ export function RunsList({
   runs,
   profiles,
   activityFilter,
+  currentUserId,
 }: {
   runs: Run[];
   profiles: Profile[];
   activityFilter: string | null;
+  currentUserId: string | null;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -95,7 +97,11 @@ export function RunsList({
                   <div className="font-bold text-lg">{fmtKm(Number(r.km))} km</div>
                   {r.duration_min && <div className="text-xs text-ink-faint">{r.duration_min} min</div>}
                 </div>
-                <ConfirmDeleteButton action={deleteRun.bind(null, r.id)} />
+                {/* Deleting only ever works for your own run (the server
+                    action and DB both enforce that) — showing the button
+                    for the partner's entries too just meant clicking it
+                    silently did nothing. */}
+                {r.user_id === currentUserId && <ConfirmDeleteButton action={deleteRun.bind(null, r.id)} />}
               </div>
             </li>
           );

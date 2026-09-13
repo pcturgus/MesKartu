@@ -1,5 +1,5 @@
 import type { ActivityType, Run } from "@/types/database";
-import { dayKey } from "@/lib/dates";
+import { dayKey, todayAtMidnight } from "@/lib/dates";
 
 export const ACTIVITIES: { id: ActivityType; icon: string; label: string; genitive: string }[] = [
   { id: "ejimas", icon: "🚶", label: "Ėjimas", genitive: "ėjimo" },
@@ -122,8 +122,7 @@ export function sharedBadges(runs: Run[], userIds: [string, string]): Badge[] {
 }
 
 export function weeklyKmSeries(runs: Run[], userIds: [string, string], weeksCount: number) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = todayAtMidnight();
   const day = (today.getDay() + 6) % 7;
   const thisMonday = new Date(today);
   thisMonday.setDate(thisMonday.getDate() - day);
@@ -160,8 +159,7 @@ export function dayRunners(runs: Run[], key: string, userIds: [string, string]):
 }
 
 export function combinedStreak(runs: Run[], userIds: [string, string]): number {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = todayAtMidnight();
   let streak = 0;
   const cursor = new Date(today);
   while (true) {

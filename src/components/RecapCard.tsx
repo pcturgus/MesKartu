@@ -1,5 +1,6 @@
 import { statsFor, fmtKm } from "@/lib/stats";
 import { combinedStreak } from "@/lib/runs";
+import { todayAtMidnight } from "@/lib/dates";
 import type { Run } from "@/types/database";
 
 export function RecapCard({
@@ -17,8 +18,7 @@ export function RecapCard({
   const leaderIdx = s0.km === s1.km ? null : s0.km > s1.km ? 0 : 1;
 
   const start = (() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = todayAtMidnight();
     const day = (today.getDay() + 6) % 7;
     const monday = new Date(today);
     monday.setDate(monday.getDate() - day);

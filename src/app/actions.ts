@@ -73,7 +73,16 @@ export async function deleteRun(runId: string) {
   } = await supabase.auth.getUser();
   if (!user) return;
 
-  const { data: run } = await supabase.from("runs").select("photo_url").eq("id", runId).single();
+  // Scoped by user_id here too (not just on the delete below) — otherwise
+  // this fetches and then deletes the PARTNER's photo from Storage even
+  // when the delete itself is correctly blocked by ownership, leaving
+  // their run in place but its photo gone.
+  const { data: run } = await supabase
+    .from("runs")
+    .select("photo_url")
+    .eq("id", runId)
+    .eq("user_id", user.id)
+    .single();
 
   await supabase.from("runs").delete().eq("id", runId).eq("user_id", user.id);
 
@@ -117,6 +126,12 @@ export async function updateSettings(_prev: SettingsState, formData: FormData): 
 
   if (nameError || goalError) return { error: "Nepavyko išsaugoti nustatymų." };
 
+  // Name/avatar and the shared goal show up in AppHeader on every tab, not
+  // just these two — without revalidating the rest, a change looked stale
+  // on Kelionės/Buitis/Kalendorius until something else refreshed them.
   revalidatePath("/");
   revalidatePath("/mes");
+  revalidatePath("/keliones");
+  revalidatePath("/buitis");
+  revalidatePath("/kalendorius");
 }

@@ -7,7 +7,7 @@ import { MonthGrid, type DayMarker } from "@/components/kalendorius/MonthGrid";
 import { ConfirmDeleteButton } from "@/components/ConfirmDeleteButton";
 import { AppHeader } from "@/components/AppHeader";
 import { deleteMilestone, deleteCalendarEvent } from "@/app/kalendorius/actions";
-import { nextOccurrence, todayKey } from "@/lib/dates";
+import { nextOccurrence, todayKey, todayAtMidnight } from "@/lib/dates";
 import {
   parseMonthKey,
   monthKeyOf,
@@ -22,8 +22,11 @@ import type { Profile, Milestone, CalendarEvent, Travel, CoupleSettings } from "
 
 export default async function KalendoriusPage({ searchParams }: PageProps<"/kalendorius">) {
   const params = await searchParams;
-  const today = new Date();
-  const defaultMonthKey = monthKeyOf(today.getFullYear(), today.getMonth());
+  // Vilnius-anchored, not the server's own local time (Vercel runs UTC) —
+  // otherwise which month opens by default could be off by a day right
+  // around midnight.
+  const todayMid = todayAtMidnight();
+  const defaultMonthKey = monthKeyOf(todayMid.getFullYear(), todayMid.getMonth());
   const monthKey = typeof params.month === "string" && /^\d{4}-\d{2}$/.test(params.month) ? params.month : defaultMonthKey;
   const { year, month } = parseMonthKey(monthKey);
 
@@ -100,8 +103,7 @@ export default async function KalendoriusPage({ searchParams }: PageProps<"/kale
 
   // Nearest upcoming item overall, for the highlight card.
   const upcoming: { label: string; icon: string; days: number }[] = [];
-  const nowMid = new Date();
-  nowMid.setHours(0, 0, 0, 0);
+  const nowMid = todayMid;
   for (const ms of allMilestones) {
     const next = nextOccurrence(ms.date, ms.recurring);
     upcoming.push({ label: ms.label, icon: "🎉", days: Math.round((next.getTime() - nowMid.getTime()) / 86400000) });

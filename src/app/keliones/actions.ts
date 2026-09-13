@@ -63,8 +63,12 @@ export async function deleteTravel(id: string) {
   const { data: photos } = await supabase.from("travel_photos").select("url").eq("travel_id", id);
 
   // travel_photos / checklist / itinerary rows cascade-delete with the
-  // travel; the Storage objects don't, so clean those up best-effort too.
-  await supabase.from("travels").delete().eq("id", id);
+  // travel; the Storage objects don't, so clean those up best-effort too —
+  // but only once the travel row itself is actually gone. Otherwise a
+  // blocked/failed delete (RLS, network blip) would still wipe the photos
+  // out from under a travel that's still there.
+  const { error: deleteError } = await supabase.from("travels").delete().eq("id", id);
+  if (deleteError) return;
 
   const paths = (photos ?? [])
     .map((p) => storagePathFromPublicUrl(p.url, "photos"))
