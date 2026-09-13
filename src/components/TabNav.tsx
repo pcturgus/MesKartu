@@ -23,6 +23,17 @@ export function TabNav({
         <Link
           key={t.key}
           href={t.href}
+          // Every tab renders this nav, and by default Next.js prefetches
+          // every visible Link as soon as it mounts — so just opening any
+          // one page was silently firing full data fetches (real Supabase
+          // queries) for the other 4 pages too, whether or not you were
+          // about to visit them. That's 4x the DB load per page view for
+          // no benefit (each route already has its own loading.tsx
+          // skeleton, so navigation still feels instant without this),
+          // and the extra concurrent load was occasionally tipping one of
+          // those fetches into a real 503 that the router silently
+          // retried. Disabling prefetch here removes both problems.
+          prefetch={false}
           className="flex flex-col items-center justify-center gap-0.5 rounded-xl px-1 py-1.5 text-center leading-tight sm:flex-row sm:gap-1.5 sm:whitespace-nowrap sm:rounded-full sm:px-4 sm:py-2"
           style={
             active === t.key
