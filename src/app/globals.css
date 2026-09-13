@@ -97,15 +97,6 @@
 
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 34px -16px rgba(124, 92, 255, 0.38);
   }
-
-  html:not([data-theme="light"]) body::before {
-    background-image:
-      linear-gradient(rgba(10, 8, 20, 0.45), rgba(10, 8, 20, 0.65)),
-      url("/brand/bg-nebula.jpg");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-  }
 }
 
 :root[data-theme="dark"] {
@@ -133,15 +124,6 @@
 
 :root[data-theme="light"] {
   color-scheme: light;
-}
-
-html[data-theme="dark"] body::before {
-  background-image:
-    linear-gradient(rgba(10, 8, 20, 0.45), rgba(10, 8, 20, 0.65)),
-    url("/brand/bg-nebula.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
 }
 
 * {
