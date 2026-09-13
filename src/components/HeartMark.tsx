@@ -14,11 +14,9 @@ export function HeartMark({ size = 28, className }: { size?: number; className?:
     >
       <defs>
         <linearGradient id="heartMarkGrad" x1="6" y1="0" x2="94" y2="0" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#ff8a3d" />
-          <stop offset="32%" stopColor="#e0447e" />
-          <stop offset="55%" stopColor="#8b5cf6" />
-          <stop offset="78%" stopColor="#38bdf8" />
-          <stop offset="100%" stopColor="#2dd4bf" />
+          <stop offset="0%" style={{ stopColor: "var(--dusk)" }} />
+          <stop offset="55%" style={{ stopColor: "var(--ember)" }} />
+          <stop offset="100%" style={{ stopColor: "var(--rose)" }} />
         </linearGradient>
       </defs>
       <path

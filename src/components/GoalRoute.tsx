@@ -70,8 +70,9 @@ export function GoalRoute({ totalKm, goalKm, goalNote }: { totalKm: number; goal
         <svg viewBox="0 0 600 110" className="w-full" style={{ aspectRatio: "600 / 110" }}>
           <defs>
             <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" style={{ stopColor: "var(--accent-fill-1)" }} />
-              <stop offset="100%" style={{ stopColor: "var(--accent-fill-2)" }} />
+              <stop offset="0%" style={{ stopColor: "var(--dusk)" }} />
+              <stop offset="55%" style={{ stopColor: "var(--ember)" }} />
+              <stop offset="100%" style={{ stopColor: "var(--rose)" }} />
             </linearGradient>
           </defs>
 

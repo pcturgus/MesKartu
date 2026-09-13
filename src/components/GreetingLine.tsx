@@ -16,14 +16,24 @@ export function GreetingLine({ names }: { names: [string, string] }) {
   }, [names[0], names[1]]);
 
   return (
-    <h1
-      className="flex min-w-0 flex-1 items-center gap-1.5 text-xl leading-tight sm:gap-2 sm:text-2xl md:text-3xl"
-      style={{ color: "var(--dusk)" }}
-    >
+    <h1 className="flex min-w-0 flex-1 items-center gap-1.5 text-xl leading-tight sm:gap-2 sm:text-2xl md:text-3xl">
       <HeartMark size={22} className="shrink-0 sm:hidden" />
       <HeartMark size={28} className="hidden shrink-0 sm:block" />
       <span className="min-w-0">
-        {greeting.text} <span>{greeting.emoji}</span>
+        <span
+          style={{
+            fontFamily: "var(--font-display)",
+            fontStyle: "italic",
+            fontWeight: 600,
+            backgroundImage: "var(--accent-gradient)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent",
+          }}
+        >
+          {greeting.text}
+        </span>{" "}
+        <span>{greeting.emoji}</span>
       </span>
     </h1>
   );

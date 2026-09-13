@@ -8,14 +8,20 @@ import type { Metadata } from "next";
 // before any text could render. These files now ship from this site's own
 // domain alongside its other static assets, so that whole waterfall is
 // gone — a meaningfully faster first paint, especially on mobile.
-import "@fontsource/bebas-neue/400.css";
+import "@fontsource/fraunces/400.css";
+import "@fontsource/fraunces/500.css";
+import "@fontsource/fraunces/600.css";
+import "@fontsource/fraunces/700.css";
+import "@fontsource/fraunces/500-italic.css";
+import "@fontsource/fraunces/600-italic.css";
 import "@fontsource/manrope/400.css";
 import "@fontsource/manrope/500.css";
 import "@fontsource/manrope/600.css";
 import "@fontsource/manrope/700.css";
 import "@fontsource/manrope/800.css";
-import "@fontsource/space-mono/400.css";
-import "@fontsource/space-mono/700.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
+import "@fontsource/jetbrains-mono/700.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
