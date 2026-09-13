@@ -144,7 +144,7 @@ export default async function DashboardPage({
         );
       })()}
 
-      <section className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <section className="relative mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
         {allProfiles.map((p) => {
           const s = statsFor(p.id, range, filteredRuns);
           const accentVar = p.accent === "rose" ? "var(--rose)" : "var(--ember)";
@@ -170,6 +170,7 @@ export default async function DashboardPage({
         {allProfiles.length === 0 && (
           <p className="text-sm text-ink-faint">Dar nėra profilių — sukurk paskyras Supabase administravime.</p>
         )}
+        {p0 && p1 && <AddRunForm variant="connector" />}
       </section>
 
       <section className="mt-8">
@@ -183,8 +184,6 @@ export default async function DashboardPage({
           currentUserId={user?.id ?? null}
         />
       </section>
-
-      <AddRunForm variant="fab" />
 
       {p0 && p1 && (
         <section className="mt-4">

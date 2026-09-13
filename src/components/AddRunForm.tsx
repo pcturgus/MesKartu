@@ -14,7 +14,7 @@ function todayLocalISO(): string {
   return d.toISOString().slice(0, 10);
 }
 
-export function AddRunForm({ variant = "inline" }: { variant?: "inline" | "fab" }) {
+export function AddRunForm({ variant = "inline" }: { variant?: "inline" | "fab" | "connector" }) {
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState(addRun, initialState);
   const [photoUploading, setPhotoUploading] = useState(false);
@@ -32,25 +32,37 @@ export function AddRunForm({ variant = "inline" }: { variant?: "inline" | "fab" 
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className={
-          variant === "fab"
-            ? "fixed z-40 flex items-center gap-1.5 rounded-full pl-4 pr-5 py-3.5 text-sm font-bold text-white shadow-[var(--shadow-lg)] transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 active:translate-y-0"
-            : "rounded-full px-5 py-2.5 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95"
-        }
-        style={
-          variant === "fab"
-            ? {
-                background: "var(--accent-gradient)",
-                right: "max(1.25rem, env(safe-area-inset-right))",
-                bottom: "calc(1.25rem + env(safe-area-inset-bottom))",
-              }
-            : { background: "var(--accent-gradient)" }
-        }
-      >
-        <span className="text-lg leading-none">+</span> Įrašas
-      </button>
+      {variant === "connector" ? (
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Pridėti įrašą"
+          title="Pridėti įrašą"
+          className="absolute left-1/2 top-1/2 z-10 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-2xl font-bold leading-none text-white transition-transform duration-150 hover:scale-110 active:scale-95"
+          style={{ background: "var(--accent-gradient)", boxShadow: "0 0 0 4px var(--bg), var(--shadow-lg)" }}
+        >
+          +
+        </button>
+      ) : (
+        <button
+          onClick={() => setOpen(true)}
+          className={
+            variant === "fab"
+              ? "fixed z-40 flex items-center gap-1.5 rounded-full pl-4 pr-5 py-3.5 text-sm font-bold text-white shadow-[var(--shadow-lg)] transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 active:translate-y-0"
+              : "rounded-full px-5 py-2.5 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95"
+          }
+          style={
+            variant === "fab"
+              ? {
+                  background: "var(--accent-gradient)",
+                  right: "max(1.25rem, env(safe-area-inset-right))",
+                  bottom: "calc(1.25rem + env(safe-area-inset-bottom))",
+                }
+              : { background: "var(--accent-gradient)" }
+          }
+        >
+          <span className="text-lg leading-none">+</span> Įrašas
+        </button>
+      )}
       <Modal open={open} onClose={() => setOpen(false)}>
         <form ref={formRef} action={formAction} className="flex flex-col gap-3">
       <div className="flex flex-col gap-1.5">
