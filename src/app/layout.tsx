@@ -37,8 +37,17 @@ export const metadata: Metadata = {
 const themeInitScript = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  // Avatars and uploaded photos are all served from Supabase storage — a
+  // separate origin from the app itself — so without a heads-up every one
+  // of those images (the header avatar shows on every single page) pays a
+  // fresh DNS+TLS handshake before its own request can even start.
+  // Preconnecting lets the browser open that connection in parallel with
+  // everything else instead of serially once the <img> is discovered.
+  const supabaseOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
   return (
     <html lang="lt" className="h-full antialiased" suppressHydrationWarning>
+      <head>{supabaseOrigin && <link rel="preconnect" href={supabaseOrigin} crossOrigin="anonymous" />}</head>
       <body className="min-h-full flex flex-col">
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {children}
