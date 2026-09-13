@@ -30,7 +30,7 @@ export function ShopItemRow({ item }: { item: ShoppingItem }) {
 
   return (
     <div
-      className={`flex items-center gap-2.5 rounded-lg border border-line bg-surface px-3 py-2 ${
+      className={`flex items-center gap-2.5 rounded-xl border border-line bg-surface px-3 py-2 shadow-[var(--shadow)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)] ${
         item.done ? "opacity-60" : ""
       }`}
     >

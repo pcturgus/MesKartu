@@ -57,7 +57,7 @@ export function CardGame() {
       <button
         type="button"
         onClick={drawNext}
-        className="relative rounded-full px-5 py-2.5 text-sm font-bold text-white"
+        className="relative rounded-full px-5 py-2.5 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95"
         style={{ background: "var(--accent-gradient)" }}
       >
         🔀 Kita kortelė

@@ -190,7 +190,7 @@ export default async function MesPage() {
                 return (
                   <li
                     key={c.id}
-                    className="relative rounded-2xl border border-dashed border-line bg-surface-2 p-5 text-center shadow-[var(--shadow)]"
+                    className="relative rounded-2xl border border-dashed border-line bg-surface-2 p-5 text-center shadow-[var(--shadow)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)]"
                   >
                     {delBtn}
                     <div className="text-2xl leading-none">💌</div>
@@ -204,7 +204,7 @@ export default async function MesPage() {
                 return (
                   <li
                     key={c.id}
-                    className="relative rounded-2xl border border-dashed border-line bg-surface-2 p-5 text-center shadow-[var(--shadow)]"
+                    className="relative rounded-2xl border border-dashed border-line bg-surface-2 p-5 text-center shadow-[var(--shadow)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)]"
                   >
                     {delBtn}
                     <div className="text-2xl leading-none">🔓</div>
@@ -214,7 +214,7 @@ export default async function MesPage() {
                     <form action={openCapsule.bind(null, c.id)} className="mt-3">
                       <button
                         type="submit"
-                        className="rounded-full px-4 py-2 text-sm font-bold text-white"
+                        className="rounded-full px-4 py-2 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95"
                         style={{ background: "var(--accent-gradient)" }}
                       >
                         Atverti laišką
@@ -224,7 +224,10 @@ export default async function MesPage() {
                 );
               }
               return (
-                <li key={c.id} className="relative rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
+                <li
+                  key={c.id}
+                  className="relative rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)]"
+                >
                   {delBtn}
                   <div className="font-mono text-xs font-bold uppercase tracking-wide" style={{ color: "var(--dusk)" }}>
                     Nuo <NameWithAvatar userId={c.created_by} /> · {fmtDateLt(c.unlock_date)}

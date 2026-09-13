@@ -144,7 +144,7 @@ export default async function KalendoriusPage({ searchParams }: PageProps<"/kale
       {nearest && (
         <section className="mt-8">
           <div
-            className="relative overflow-hidden rounded-2xl p-5 shadow-[var(--shadow)] text-white flex items-center gap-3"
+            className="relative overflow-hidden rounded-2xl p-5 shadow-[var(--shadow-lg)] text-white flex items-center gap-3"
             style={{
               backgroundImage:
                 "radial-gradient(circle at 85% -10%, rgba(255,255,255,.25), transparent 55%), linear-gradient(160deg, var(--accent-fill-1), var(--ember) 130%)",
@@ -160,11 +160,15 @@ export default async function KalendoriusPage({ searchParams }: PageProps<"/kale
       )}
 
       <section className="mt-6">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
+        {/* Stacked on mobile — the month nav and the two "+" buttons
+            together are wider than a phone screen, and side by side with
+            no wrap they used to just run off the right edge with no way to
+            reach them. Back to one row from sm: up, where there's room. */}
+        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center justify-center gap-2 sm:justify-start">
             <Link
               href={`/kalendorius?month=${shiftMonthKey(monthKey, -1)}`}
-              className="rounded-full border border-line px-3 py-1.5 text-sm font-bold text-ink-soft"
+              className="rounded-full border border-line px-3 py-1.5 text-sm font-bold text-ink-soft transition-transform duration-150 hover:-translate-y-0.5 active:scale-90"
             >
               ◀
             </Link>
@@ -173,12 +177,12 @@ export default async function KalendoriusPage({ searchParams }: PageProps<"/kale
             </h2>
             <Link
               href={`/kalendorius?month=${shiftMonthKey(monthKey, 1)}`}
-              className="rounded-full border border-line px-3 py-1.5 text-sm font-bold text-ink-soft"
+              className="rounded-full border border-line px-3 py-1.5 text-sm font-bold text-ink-soft transition-transform duration-150 hover:-translate-y-0.5 active:scale-90"
             >
               ▶
             </Link>
           </div>
-          <div className="flex gap-2">
+          <div className="flex justify-end gap-2">
             <AddEventForm />
             <AddMilestoneForm />
           </div>
@@ -198,7 +202,7 @@ export default async function KalendoriusPage({ searchParams }: PageProps<"/kale
             {monthItems.map((it, i) => (
               <li
                 key={`${it.kind}-${i}`}
-                className="flex items-center gap-3 rounded-lg border border-line bg-surface px-3 py-2.5"
+                className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-3 py-2.5 shadow-[var(--shadow)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)]"
               >
                 <span className="text-base leading-none">{it.kind === "milestone" ? "🎉" : it.kind === "event" ? "📌" : "✈️"}</span>
                 <span className="font-mono text-xs text-ink-faint w-8">{it.day} d.</span>

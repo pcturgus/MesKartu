@@ -9,7 +9,7 @@ export function MovieRow({ movie }: { movie: Movie }) {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <li className="flex items-center justify-between gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-[var(--shadow)]">
+    <li className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3 shadow-[var(--shadow)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)]">
       <div className="flex items-center gap-3 min-w-0">
         <button
           onClick={() => startTransition(() => toggleMovieWatched(movie.id, !movie.watched))}

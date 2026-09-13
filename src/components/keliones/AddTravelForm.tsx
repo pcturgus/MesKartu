@@ -24,7 +24,7 @@ export function AddTravelForm() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded-full px-4 py-2 text-sm font-bold text-white"
+        className="rounded-full px-4 py-2 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95"
         style={{ background: "var(--accent-gradient)" }}
       >
         + Kelionė
@@ -85,7 +85,7 @@ export function AddTravelForm() {
             <button
               type="submit"
               disabled={pending}
-              className="rounded-full px-4 py-2 text-sm font-bold text-white disabled:opacity-70"
+              className="rounded-full px-4 py-2 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 disabled:opacity-70"
               style={{ background: "var(--accent-gradient)" }}
             >
               {pending ? "Saugoma..." : "Pridėti"}

@@ -75,7 +75,7 @@ export function GuessGame({
             <button
               type="button"
               onClick={() => startTransition(() => startGuessRound())}
-              className="relative rounded-full px-5 py-2.5 text-sm font-bold text-white"
+              className="relative rounded-full px-5 py-2.5 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95"
               style={{ background: "var(--accent-gradient)" }}
             >
               🎲 Naujas raundas
@@ -108,7 +108,7 @@ export function GuessGame({
                   <button
                     type="submit"
                     disabled={targetPending}
-                    className="rounded-full px-5 py-2 text-sm font-bold text-white disabled:opacity-70"
+                    className="rounded-full px-5 py-2 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 disabled:opacity-70"
                     style={{ background: "var(--accent-gradient)" }}
                   >
                     Išsaugoti atsakymą
@@ -135,7 +135,7 @@ export function GuessGame({
                   <button
                     type="submit"
                     disabled={guessPending}
-                    className="rounded-full px-5 py-2 text-sm font-bold text-white disabled:opacity-70"
+                    className="rounded-full px-5 py-2 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 disabled:opacity-70"
                     style={{ background: "var(--accent-gradient)" }}
                   >
                     Spėti
@@ -170,7 +170,7 @@ export function GuessGame({
                   <button
                     type="button"
                     onClick={() => startTransition(() => gradeRound(active.id, true))}
-                    className="rounded-full px-4 py-2 text-sm font-bold text-white"
+                    className="rounded-full px-4 py-2 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95"
                     style={{ background: "var(--accent-gradient)" }}
                   >
                     ✅ Atspėjo
