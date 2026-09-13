@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { storagePathFromPublicUrl } from "@/lib/storage";
 import { recordActivity } from "@/lib/activity";
 import { isActivityType, activityGenitive } from "@/lib/runs";
+import { todayKey } from "@/lib/dates";
 import type { ActivityType } from "@/types/database";
 
 export async function logout() {
@@ -43,6 +44,16 @@ export async function addRun(
 
   if (!date || !isFinite(km) || km <= 0) {
     return { error: "Įvesk datą ir teisingą atstumą (km)." };
+  }
+  // The date/duration inputs also have client-side max/min attributes, but
+  // those are trivially bypassed (devtools, a direct POST) — without a
+  // server-side check too, a future-dated or negative-pace entry would be
+  // accepted and immediately count toward stats, badges and the goal.
+  if (date > todayKey()) {
+    return { error: "Data negali būti ateityje." };
+  }
+  if (duration_min !== null && (!isFinite(duration_min) || duration_min <= 0)) {
+    return { error: "Trukmė turi būti teigiamas skaičius." };
   }
 
   const { error } = await supabase.from("runs").insert({

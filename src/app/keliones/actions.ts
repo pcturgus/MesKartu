@@ -99,6 +99,23 @@ export async function addTravelPhotos(travelId: string, urls: string[]) {
     .from("travel_photos")
     .insert(toInsert.map((url) => ({ travel_id: travelId, url, created_by: userId })));
 
+  // The count-then-insert above isn't atomic, so two near-simultaneous
+  // uploads (e.g. both of you adding photos right after the same trip) can
+  // still push the total past the cap. Re-check afterward and trim back
+  // down, removing whichever rows ended up newest along with their Storage
+  // objects, so the count always converges back to the cap.
+  const { data: allPhotos } = await supabase
+    .from("travel_photos")
+    .select("id, url, created_at")
+    .eq("travel_id", travelId)
+    .order("created_at", { ascending: true });
+  const overflow = (allPhotos ?? []).slice(MAX_TRAVEL_PHOTOS);
+  if (overflow.length > 0) {
+    await supabase.from("travel_photos").delete().in("id", overflow.map((p) => p.id));
+    const overflowPaths = overflow.map((p) => storagePathFromPublicUrl(p.url, "photos")).filter((p): p is string => !!p);
+    if (overflowPaths.length) await supabase.storage.from("photos").remove(overflowPaths);
+  }
+
   await recordActivity(supabase, userId, "pridėjo nuotraukų kelionei", "/keliones");
 
   revalidatePath("/keliones");

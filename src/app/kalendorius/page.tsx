@@ -27,7 +27,16 @@ export default async function KalendoriusPage({ searchParams }: PageProps<"/kale
   // around midnight.
   const todayMid = todayAtMidnight();
   const defaultMonthKey = monthKeyOf(todayMid.getFullYear(), todayMid.getMonth());
-  const monthKey = typeof params.month === "string" && /^\d{4}-\d{2}$/.test(params.month) ? params.month : defaultMonthKey;
+  // Requires a real month (01-12) and a 4-digit year that doesn't start
+  // with "0" — a hand-typed/bookmarked ?month= with an out-of-range month
+  // (e.g. "13") or a year like "0050" would otherwise either render an
+  // unlabeled month (LT_MONTH_NAMES[undefined]) or get silently
+  // reinterpreted by JS's legacy two-digit-year Date behavior (year "50"
+  // becomes 1950), disagreeing with the printed heading.
+  const monthKey =
+    typeof params.month === "string" && /^[1-9]\d{3}-(0[1-9]|1[0-2])$/.test(params.month)
+      ? params.month
+      : defaultMonthKey;
   const { year, month } = parseMonthKey(monthKey);
 
   const supabase = await createClient();

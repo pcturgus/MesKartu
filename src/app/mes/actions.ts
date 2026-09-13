@@ -83,7 +83,8 @@ export async function toggleMovieWatched(id: string, watched: boolean) {
 export async function setMovieRating(id: string, rating: number) {
   const { supabase, userId } = await currentUserId();
   if (!userId) return;
-  await supabase.from("movies").update({ rating }).eq("id", id);
+  const clamped = Math.max(1, Math.min(5, Math.round(rating)));
+  await supabase.from("movies").update({ rating: clamped }).eq("id", id);
   revalidatePath("/mes");
 }
 
@@ -102,6 +103,7 @@ export async function setStartDate(_prev: FormState, formData: FormData): Promis
 
   const startDate = String(formData.get("start_date") || "");
   if (!startDate) return { error: "Įvesk datą." };
+  if (startDate > todayKey()) return { error: "Data negali būti ateityje." };
 
   const { error } = await supabase.from("couple_settings").update({ start_date: startDate }).eq("id", 1);
   if (error) return { error: "Nepavyko išsaugoti datos." };

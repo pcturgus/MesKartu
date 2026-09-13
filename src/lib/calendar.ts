@@ -35,7 +35,10 @@ export function occursOn(dateStr: string, recurring: boolean, year: number, mont
 }
 
 // True if [startDate, endDate] (either may be missing) overlaps the given
-// calendar day.
+// calendar day. A trip with only ONE of the two dates set (the form allows
+// leaving either blank) is treated as a single-day range on whichever date
+// it has — otherwise a trip with only an end date would never show up on
+// the calendar at all.
 export function rangeOccursOn(
   startDate: string | null,
   endDate: string | null,
@@ -43,10 +46,10 @@ export function rangeOccursOn(
   month0: number,
   day: number
 ): boolean {
-  if (!startDate) return false;
+  if (!startDate && !endDate) return false;
   const dayDate = new Date(year, month0, day).getTime();
-  const start = new Date(startDate + "T00:00:00").getTime();
-  const end = endDate ? new Date(endDate + "T00:00:00").getTime() : start;
+  const start = new Date((startDate ?? endDate!) + "T00:00:00").getTime();
+  const end = new Date((endDate ?? startDate!) + "T00:00:00").getTime();
   return dayDate >= start && dayDate <= end;
 }
 

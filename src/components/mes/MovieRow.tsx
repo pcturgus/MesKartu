@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { toggleMovieWatched, setMovieRating, deleteMovie } from "@/app/mes/actions";
+import { ConfirmDeleteButton } from "@/components/ConfirmDeleteButton";
 import type { Movie } from "@/types/database";
 
 export function MovieRow({ movie }: { movie: Movie }) {
@@ -42,13 +43,7 @@ export function MovieRow({ movie }: { movie: Movie }) {
             </button>
           ))}
         </div>
-        <button
-          onClick={() => startTransition(() => deleteMovie(movie.id))}
-          title="Ištrinti"
-          className="text-ink-faint hover:text-ember-ink text-sm px-1"
-        >
-          ✕
-        </button>
+        <ConfirmDeleteButton action={deleteMovie.bind(null, movie.id)} />
       </div>
     </li>
   );

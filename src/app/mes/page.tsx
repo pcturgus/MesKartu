@@ -168,16 +168,13 @@ export default async function MesPage() {
           <ul className="flex flex-col gap-3">
             {sortedCapsules.map((c) => {
               const unlocked = c.unlock_date <= today;
+              // Same confirm-before-delete as everywhere else in this tab —
+              // a misclick here could permanently delete a still-sealed,
+              // unread letter with no way to recover it.
               const delBtn = (
-                <form action={deleteCapsule.bind(null, c.id)}>
-                  <button
-                    type="submit"
-                    className="absolute top-2.5 right-2.5 text-ink-faint hover:text-ember-ink text-xs px-1"
-                    title="Ištrinti"
-                  >
-                    ✕
-                  </button>
-                </form>
+                <div className="absolute top-2.5 right-2.5">
+                  <ConfirmDeleteButton action={deleteCapsule.bind(null, c.id)} />
+                </div>
               );
               if (!unlocked) {
                 const nowMidnight = todayAtMidnight();

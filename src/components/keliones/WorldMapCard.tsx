@@ -46,7 +46,11 @@ export function WorldMapCard({ travels }: { travels: Travel[] }) {
     const guessed = guessCountryCode(t.country);
     if (!guessed || !MAP_CODES.has(guessed)) continue;
     const code = guessed as ISOCode;
-    const visited = !!t.end_date && t.end_date < today;
+    // "Visited" means the trip has actually begun (or, if only an end date
+    // was given, that it's already passed) — not just "fully over". A trip
+    // that's happening right now should already show as visited, not still
+    // "want to visit".
+    const visited = t.start_date ? t.start_date <= today : !!t.end_date && t.end_date <= today;
     if (visited) {
       byCode.set(code, VISITED);
     } else if (byCode.get(code) !== VISITED) {

@@ -2,7 +2,7 @@
 // shopping list, so items get a little icon without any manual picking.
 import { normalizeLt } from "@/lib/text";
 
-const PRODUCT_EMOJI_MAP: { kw: string[]; icon: string }[] = [
+const PRODUCT_EMOJI_MAP: { kw: string[]; icon: string; exclude?: string[] }[] = [
   { kw: ["obuol"], icon: "🍎" },
   { kw: ["banan"], icon: "🍌" },
   { kw: ["apelsin"], icon: "🍊" },
@@ -33,7 +33,11 @@ const PRODUCT_EMOJI_MAP: { kw: string[]; icon: string }[] = [
   { kw: ["grybai", "grybu", "grybų", "grybas"], icon: "🍄" },
   { kw: ["moliūg", "moliug"], icon: "🎃" },
   { kw: ["pien"], icon: "🥛" },
-  { kw: ["sūr", "sur"], icon: "🧀" },
+  // "sur" also matches inside "sūrus"/"sūri" (salty) after diacritics are
+  // stripped — exclude those specific (already-normalized) words so e.g.
+  // "sūrūs riešutai" (salty nuts) falls through to the nuts keyword
+  // instead of cheese.
+  { kw: ["sūr", "sur"], icon: "🧀", exclude: ["surus", "suri", "surios", "suraus", "suriau", "suresnis"] },
   { kw: ["kiaušin", "kiausin"], icon: "🥚" },
   { kw: ["jogurt"], icon: "🥣" },
   { kw: ["sviest"], icon: "🧈" },
@@ -74,7 +78,10 @@ const PRODUCT_EMOJI_MAP: { kw: string[]; icon: string }[] = [
   { kw: ["servetė", "serveti"], icon: "🧻" },
   { kw: ["šampūn", "sampun"], icon: "🧴" },
   { kw: ["vystykl"], icon: "👶" },
-  { kw: ["gėl", "gel"], icon: "💐" },
+  // "gel" also matches inside "gelis" (shower/hair gel) after diacritics
+  // are stripped from "gėl" — exclude those forms so "dušo gelis" falls
+  // through instead of showing a flower.
+  { kw: ["gėl", "gel"], icon: "💐", exclude: ["gelis", "gelio", "geliu", "gelyje", "gelio"] },
   { kw: ["žvak", "zvak"], icon: "🕯️" },
   { kw: ["šuns", "suns", "katės", "kates", "gyvūn", "gyvun"], icon: "🐾" },
   { kw: ["riešut", "riesut"], icon: "🥜" },
@@ -84,9 +91,17 @@ const PRODUCT_EMOJI_MAP: { kw: string[]; icon: string }[] = [
 
 export function guessProductEmoji(text: string): string {
   const n = normalizeLt(text);
+  const words = n.split(/\s+/).filter(Boolean);
   for (const entry of PRODUCT_EMOJI_MAP) {
     for (const kw of entry.kw) {
-      if (n.indexOf(kw) !== -1) return entry.icon;
+      if (n.indexOf(kw) === -1) continue;
+      // A plain substring hit can land inside an unrelated word that
+      // happens to share the same root after diacritics are stripped
+      // (e.g. "sur" inside "sūrus"/salty, not "sūris"/cheese). If the
+      // matched keyword's containing word is explicitly excluded, skip
+      // this keyword instead of guessing wrong.
+      if (entry.exclude?.some((bad) => words.some((w) => w.indexOf(kw) !== -1 && w === bad))) continue;
+      return entry.icon;
     }
   }
   return "🛒";
