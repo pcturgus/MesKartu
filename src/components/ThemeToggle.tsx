@@ -1,18 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-type Theme = "light" | "dark";
-
-function applyTheme(theme: Theme) {
-  document.documentElement.setAttribute("data-theme", theme);
-  try {
-    localStorage.setItem("theme", theme);
-  } catch {
-    // Private/incognito mode, storage disabled, etc. — the choice just
-    // won't survive a reload, nothing else breaks.
-  }
-}
+import { applyTheme, initialTheme, THEME_CHANGE_EVENT, type Theme } from "@/lib/theme";
 
 // A manual light/dark switch, on top of the site otherwise following the
 // device's own setting. Deliberately a simple two-way choice (no "seka
@@ -24,15 +13,16 @@ export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    const current = document.documentElement.getAttribute("data-theme");
-    const initial: Theme =
-      current === "light" || current === "dark"
-        ? current
-        : window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setTheme(initial);
+    setTheme(initialTheme());
+    // Stay in sync with the quick header toggle (or another tab) changing
+    // the theme without this control being the one clicked.
+    function onChange(e: Event) {
+      const next = (e as CustomEvent<Theme>).detail;
+      if (next === "light" || next === "dark") setTheme(next);
+    }
+    window.addEventListener(THEME_CHANGE_EVENT, onChange);
+    return () => window.removeEventListener(THEME_CHANGE_EVENT, onChange);
   }, []);
 
   function choose(next: Theme) {

@@ -151,7 +151,7 @@ export default async function DashboardPage({
           return (
             <div
               key={p.id}
-              className="rounded-xl border border-line bg-surface p-5 text-center shadow-[var(--shadow)]"
+              className="rounded-2xl border border-line bg-surface p-5 text-center shadow-[var(--shadow)]"
               style={{ borderTop: `3px solid ${accentVar}` }}
             >
               <div className="flex items-center justify-center gap-2 font-bold" style={{ color: accentVar }}>

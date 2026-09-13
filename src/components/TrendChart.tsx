@@ -16,7 +16,7 @@ export function TrendChart({ runs, userIds }: { runs: Run[]; userIds: [string, s
   const totalAll = series.reduce((a, s) => a + s.total, 0);
 
   return (
-    <div className="rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
+    <div className="rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
       <p className="text-sm text-ink-soft">
         Pastarosios {series.length} savaitės: <b style={{ color: "var(--ink)" }}>{fmtKm(totalAll)} km</b>
       </p>

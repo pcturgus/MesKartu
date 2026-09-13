@@ -50,7 +50,7 @@ export function GoalRoute({ totalKm, goalKm, goalNote }: { totalKm: number; goal
   }, [pct]);
 
   return (
-    <div className="rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
+    <div className="rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
       <div className="flex flex-wrap items-baseline justify-between gap-1 text-sm">
         <span className="text-ink-soft">
           Virtuali kelionė iki <b style={{ color: "var(--ink)" }}>{goalNote || "tikslo"}</b>

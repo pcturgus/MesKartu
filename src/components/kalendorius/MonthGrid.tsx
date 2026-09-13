@@ -20,7 +20,7 @@ export function MonthGrid({
   const cells: (number | null)[] = [...Array(offset).fill(null), ...Array.from({ length: nDays }, (_, i) => i + 1)];
 
   return (
-    <div className="rounded-xl border border-line bg-surface p-3 shadow-[var(--shadow)]">
+    <div className="rounded-2xl border border-line bg-surface p-3 shadow-[var(--shadow)]">
       <div className="grid grid-cols-7 gap-1 text-center text-xs font-bold text-ink-faint mb-1.5">
         {LT_WEEKDAYS_SHORT.map((w) => (
           <div key={w}>{w}</div>

@@ -20,7 +20,7 @@ export function StreakGrid({ runs, userIds, names }: { runs: Run[]; userIds: [st
   const streak = combinedStreak(runs, userIds);
 
   return (
-    <div className="rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
+    <div className="rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
       <div className="flex flex-wrap items-center gap-5">
         <div className="grid grid-flow-col grid-rows-7 gap-1" style={{ gridAutoColumns: "10px" }}>
           {cells.map((c) => (

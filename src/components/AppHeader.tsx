@@ -2,7 +2,7 @@ import { logout } from "@/app/actions";
 import { GreetingLine } from "@/components/GreetingLine";
 import { NotificationsBell } from "@/components/NotificationsBell";
 import { SettingsForm } from "@/components/SettingsForm";
-import { namesFromProfiles } from "@/lib/profiles";
+import { ThemeToggleButton } from "@/components/ThemeToggleButton";
 import type { Profile } from "@/types/database";
 
 // The same top bar (greeting, notifications, profile photo / settings,
@@ -29,16 +29,17 @@ export function AppHeader({
     // cluster on its own right-aligned row below. From sm: up there's
     // enough width for both side by side again.
     <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-      <GreetingLine names={namesFromProfiles(profiles)} />
+      <GreetingLine profiles={profiles} />
       <div className="flex w-full shrink-0 items-center justify-end gap-2 sm:w-auto">
         <NotificationsBell />
+        <ThemeToggleButton />
         {me && (
           <SettingsForm myName={me.name} goalKm={goalKm} goalNote={goalNote} avatarUrl={me.avatar_url} />
         )}
         <form action={logout}>
           <button
             type="submit"
-            className="rounded-full border border-line px-3 py-2 text-sm font-bold text-ink-soft sm:px-4"
+            className="rounded-full border border-line px-3 py-2 text-sm font-bold text-ink-soft transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 sm:px-4"
           >
             Atsijungti
           </button>

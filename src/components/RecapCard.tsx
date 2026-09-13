@@ -50,7 +50,7 @@ export function RecapCard({
 
   return (
     <div
-      className="relative overflow-hidden rounded-2xl p-6 shadow-[var(--shadow)] text-white"
+      className="relative overflow-hidden rounded-2xl p-6 shadow-[var(--shadow-lg)] text-white"
       style={{
         backgroundImage:
           "radial-gradient(circle at 85% -10%, rgba(255,255,255,.25), transparent 55%), linear-gradient(160deg, var(--accent-fill-1), var(--ember) 130%)",

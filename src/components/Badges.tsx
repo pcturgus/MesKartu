@@ -24,7 +24,7 @@ function BadgeRow({
           <div
             key={b.badge_id}
             title={`${def.desc} · gauta ${fmtEarnedDate(b.earned_at)}`}
-            className="flex w-[92px] flex-col items-center gap-1 rounded-xl border p-2.5 text-center"
+            className="flex w-[92px] flex-col items-center gap-1 rounded-2xl border p-2.5 text-center transition-transform duration-150 hover:-translate-y-0.5 hover:scale-[1.03] active:scale-95"
             style={{
               borderColor: accent ?? "var(--dusk)",
               background: accent ? `color-mix(in srgb, ${accent} 12%, var(--surface))` : "var(--surface-2)",
@@ -54,14 +54,14 @@ export function Badges({
 
   if (badgesEarned.length === 0) {
     return (
-      <div className="rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
+      <div className="rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
         <p className="text-sm text-ink-faint">Kol kas jokių pasiekimų — pridėkite įrašą, kad pradėtumėte rinkti!</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
+    <div className="flex flex-col gap-4 rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
       {personal0.length > 0 && (
         <div>
           <h3 className="text-xs font-extrabold uppercase tracking-wide text-ink-faint mb-2">{names[0]}</h3>

@@ -61,7 +61,7 @@ export function NotificationsBell() {
         onClick={handleOpen}
         title="Pranešimai"
         aria-label="Pranešimai"
-        className="relative rounded-full border border-line w-9 h-9 flex items-center justify-center text-ink-soft"
+        className="relative rounded-full border border-line w-9 h-9 flex items-center justify-center text-ink-soft transition-transform duration-150 hover:-translate-y-0.5 active:scale-90"
       >
         🔔
         {unread > 0 && (

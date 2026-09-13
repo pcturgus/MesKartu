@@ -94,7 +94,7 @@ export default async function MesPage() {
         <h2 className="text-2xl mb-3" style={{ color: "var(--dusk)" }}>
           Kartu
         </h2>
-        <div className="rounded-xl border border-line bg-surface p-6 text-center shadow-[var(--shadow)]">
+        <div className="rounded-2xl border border-line bg-surface p-6 text-center shadow-[var(--shadow)]">
           {daysTogether === null ? (
             <div className="text-sm text-ink-faint">
               <p className="mb-3">Įveskite pirmo pasimatymo datą, kad matytumėte, kiek laiko esate kartu.</p>
@@ -104,7 +104,14 @@ export default async function MesPage() {
             <>
               <div
                 className="font-mono font-bold leading-none"
-                style={{ color: "var(--dusk)", fontSize: "clamp(3rem,10vw,4.2rem)", fontVariantNumeric: "tabular-nums" }}
+                style={{
+                  backgroundImage: "var(--accent-gradient)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                  fontSize: "clamp(3rem,10vw,4.2rem)",
+                  fontVariantNumeric: "tabular-nums",
+                }}
               >
                 {daysTogether}
               </div>
@@ -138,7 +145,7 @@ export default async function MesPage() {
             {allMemories.map((m) => (
               <li
                 key={m.id}
-                className="flex items-start justify-between gap-3 rounded-xl border border-line bg-surface p-4 shadow-[var(--shadow)]"
+                className="flex items-start justify-between gap-3 rounded-2xl border border-line bg-surface p-4 shadow-[var(--shadow)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)]"
               >
                 <div className="flex items-start gap-3">
                   {m.photo_url && <LightboxImage src={m.photo_url} alt="" />}
@@ -183,7 +190,7 @@ export default async function MesPage() {
                 return (
                   <li
                     key={c.id}
-                    className="relative rounded-xl border border-dashed border-line bg-surface-2 p-5 text-center shadow-[var(--shadow)]"
+                    className="relative rounded-2xl border border-dashed border-line bg-surface-2 p-5 text-center shadow-[var(--shadow)]"
                   >
                     {delBtn}
                     <div className="text-2xl leading-none">💌</div>
@@ -197,7 +204,7 @@ export default async function MesPage() {
                 return (
                   <li
                     key={c.id}
-                    className="relative rounded-xl border border-dashed border-line bg-surface-2 p-5 text-center shadow-[var(--shadow)]"
+                    className="relative rounded-2xl border border-dashed border-line bg-surface-2 p-5 text-center shadow-[var(--shadow)]"
                   >
                     {delBtn}
                     <div className="text-2xl leading-none">🔓</div>
@@ -217,7 +224,7 @@ export default async function MesPage() {
                 );
               }
               return (
-                <li key={c.id} className="relative rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
+                <li key={c.id} className="relative rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
                   {delBtn}
                   <div className="font-mono text-xs font-bold uppercase tracking-wide" style={{ color: "var(--dusk)" }}>
                     Nuo <NameWithAvatar userId={c.created_by} /> · {fmtDateLt(c.unlock_date)}

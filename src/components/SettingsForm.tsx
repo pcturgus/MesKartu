@@ -4,7 +4,6 @@ import { useActionState, useState } from "react";
 import { updateSettings, type SettingsState } from "@/app/actions";
 import { GOAL_PRESETS } from "@/lib/runs";
 import { Modal } from "@/components/Modal";
-import { Avatar } from "@/components/Avatar";
 import { PhotoField } from "@/components/PhotoField";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -34,9 +33,9 @@ export function SettingsForm({
         onClick={() => setOpen(true)}
         title="Nustatymai"
         aria-label="Nustatymai"
-        className="rounded-full"
+        className="rounded-full border border-line w-9 h-9 flex items-center justify-center text-ink-soft transition-transform duration-150 hover:-translate-y-0.5 active:scale-90"
       >
-        <Avatar url={avatarUrl} name={myName} size={36} />
+        ⚙️
       </button>
       <Modal open={open} onClose={() => setOpen(false)}>
         <form action={formAction} className="flex flex-col gap-3 text-left">

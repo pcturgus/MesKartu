@@ -138,7 +138,10 @@ export default async function KelionesPage() {
               const expenses = expensesByTravel[t.id] ?? [];
               const spent = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
               return (
-                <li key={t.id} className="rounded-xl border border-line bg-surface p-3 shadow-[var(--shadow)]">
+                <li
+                  key={t.id}
+                  className="rounded-2xl border border-line bg-surface p-3 shadow-[var(--shadow)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)]"
+                >
                   <div className="flex items-center gap-2">
                     <FlagIcon country={t.country} />
                     <div className="flex-1">
@@ -183,7 +186,7 @@ export default async function KelionesPage() {
           <AddContributionForm />
         </div>
 
-        <div className="rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
+        <div className="rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
           <div className="flex items-baseline justify-between">
             <span className="text-sm text-ink-soft">
               Kelionė iki <b style={{ color: "var(--ink)" }}>{goal.label}</b>
@@ -194,7 +197,7 @@ export default async function KelionesPage() {
           </div>
           <div className="mt-3 h-2.5 rounded-full bg-surface-2 overflow-hidden">
             <div
-              className="h-full rounded-full"
+              className="savings-bar-fill h-full rounded-full"
               style={{ width: `${savedPct * 100}%`, background: "var(--accent-gradient)" }}
             />
           </div>
@@ -206,7 +209,7 @@ export default async function KelionesPage() {
             {allContributions.map((c) => (
               <li
                 key={c.id}
-                className="flex items-center justify-between gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-[var(--shadow)]"
+                className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3 shadow-[var(--shadow)]"
               >
                 <div className="flex items-center gap-2.5">
                   <Avatar url={profileFor(c.user_id)?.avatar_url} name={nameFor(c.user_id)} />

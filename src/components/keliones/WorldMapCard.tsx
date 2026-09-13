@@ -69,7 +69,7 @@ export function WorldMapCard({ travels }: { travels: Travel[] }) {
   }
 
   return (
-    <div className="rounded-xl border border-line bg-surface p-3 shadow-[var(--shadow)]">
+    <div className="rounded-2xl border border-line bg-surface p-3 shadow-[var(--shadow)]">
       <div ref={containerRef} style={{ width: "100%", height: NATIVE_HEIGHT * scale, overflow: "hidden" }}>
         <div style={{ width: NATIVE_WIDTH, height: NATIVE_HEIGHT, transform: `scale(${scale})`, transformOrigin: "top left" }}>
           <WorldMap

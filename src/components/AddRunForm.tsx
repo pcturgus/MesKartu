@@ -36,8 +36,8 @@ export function AddRunForm({ variant = "inline" }: { variant?: "inline" | "fab" 
         onClick={() => setOpen(true)}
         className={
           variant === "fab"
-            ? "fixed z-40 flex items-center gap-1.5 rounded-full pl-4 pr-5 py-3.5 text-sm font-bold text-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.35)] active:scale-95 transition-transform"
-            : "rounded-full px-5 py-2.5 text-sm font-bold text-white"
+            ? "fixed z-40 flex items-center gap-1.5 rounded-full pl-4 pr-5 py-3.5 text-sm font-bold text-white shadow-[var(--shadow-lg)] transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 active:translate-y-0"
+            : "rounded-full px-5 py-2.5 text-sm font-bold text-white transition-transform duration-150 hover:-translate-y-0.5 active:scale-95"
         }
         style={
           variant === "fab"

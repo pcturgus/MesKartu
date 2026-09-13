@@ -34,9 +34,9 @@ function ModalDialog({ onClose, children }: { onClose: () => void; children: Rea
       onClick={(e) => {
         if (e.target === ref.current) onClose();
       }}
-      className="m-auto max-h-[88vh] w-[min(480px,94vw)] overflow-y-auto rounded-xl border-0 bg-transparent p-0 backdrop:bg-black/60"
+      className="m-auto max-h-[88vh] w-[min(480px,94vw)] overflow-y-auto rounded-2xl border-0 bg-transparent p-0 backdrop:bg-black/60"
     >
-      <div className="relative rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow)]">
+      <div className="relative rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow-lg)]">
         <button
           type="button"
           onClick={onClose}

@@ -73,7 +73,7 @@ export function RunsList({
           return (
             <li
               key={r.id}
-              className="relative flex items-center justify-between gap-3 rounded-xl border border-line bg-surface p-4 shadow-[var(--shadow)]"
+              className="relative flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface p-4 shadow-[var(--shadow)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)]"
               style={{ borderLeft: `3px solid ${accentVar}` }}
             >
               <div className="flex items-center gap-3">
