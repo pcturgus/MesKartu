@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { addMilestone, type FormState } from "@/app/kalendorius/actions";
 import { Modal } from "@/components/Modal";
+import { todayKey } from "@/lib/dates";
 
 const initialState: FormState = undefined;
 
@@ -55,6 +56,7 @@ export function AddMilestoneForm() {
             name="date"
             type="date"
             required
+            defaultValue={todayKey()}
             className="rounded-md border border-line bg-surface px-3 py-2 text-ink outline-none focus:border-dusk-soft"
           />
         </div>

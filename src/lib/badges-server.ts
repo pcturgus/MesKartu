@@ -93,6 +93,12 @@ export async function checkAndAwardBadges(
 
   const { personal, shared } = computeEarnedBadgeIds({ ...badgeData, userIds });
 
+  const stillEarned = new Set<string>();
+  for (const userId of userIds) {
+    for (const badgeId of personal[userId] ?? []) stillEarned.add(`${badgeId}|${userId}`);
+  }
+  for (const badgeId of shared) stillEarned.add(`${badgeId}|${SHARED_KEY}`);
+
   const already = new Set(existing.map((b) => `${b.badge_id}|${b.user_id ?? SHARED_KEY}`));
 
   const newRows: { badge_id: string; user_id: string | null }[] = [];
@@ -112,10 +118,26 @@ export async function checkAndAwardBadges(
     if (def) await notifyBoth(supabase, userIds, `🏆 Naujas bendras pasiekimas: ${def.title}`, "/#pasiekimai");
   }
 
-  if (newRows.length === 0) return existing;
+  // Every badge here is a live threshold against current data (km total,
+  // trip count, etc.) — the whole point of recomputing from scratch each
+  // time is that badges_earned reflects the truth right now. But deleting
+  // whatever earned a badge (e.g. the trip behind "Pirma kelionė") only
+  // ever showed up on the *award* side before: nothing ever removed the
+  // row once the condition stopped holding, so a revoked badge stayed
+  // forever. Delete any earned row whose condition no longer holds, same
+  // as we'd insert one whose condition just started holding.
+  const staleRows = existing.filter((b) => !stillEarned.has(`${b.badge_id}|${b.user_id ?? SHARED_KEY}`));
+  let current = existing;
+  if (staleRows.length > 0) {
+    await Promise.all(staleRows.map((b) => supabase.from("badges_earned").delete().eq("id", b.id)));
+    const staleIds = new Set(staleRows.map((b) => b.id));
+    current = current.filter((b) => !staleIds.has(b.id));
+  }
+
+  if (newRows.length === 0) return current;
 
   // Ignore duplicate-key races (e.g. both partners triggering the same
   // shared badge at nearly the same time) — the unique index protects us.
   const { data: inserted } = await supabase.from("badges_earned").insert(newRows).select("*");
-  return [...existing, ...((inserted ?? []) as BadgeEarned[])];
+  return [...current, ...((inserted ?? []) as BadgeEarned[])];
 }
