@@ -61,8 +61,13 @@ export function GoalRoute({ totalKm, goalKm, goalNote }: { totalKm: number; goal
         </span>
       </div>
       <p className="mt-1 text-xs text-ink-faint">Kiekvienas nueitas ar nubėgtas kilometras artina jus prie tikslo.</p>
-      <div className="mt-3 w-full overflow-x-auto">
-        <svg viewBox="0 0 600 110" className="w-full min-w-[420px]" style={{ height: "110px" }}>
+      <div className="mt-3 w-full">
+        {/* No min-width / horizontal scroll — the illustration scales down
+            to whatever width the card actually has (via the SVG's own
+            viewBox + aspect-ratio) instead of getting clipped on narrow
+            phones, so the whole route is always visible without the card
+            itself needing to grow. */}
+        <svg viewBox="0 0 600 110" className="w-full" style={{ aspectRatio: "600 / 110" }}>
           <defs>
             <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" style={{ stopColor: "var(--accent-fill-1)" }} />
